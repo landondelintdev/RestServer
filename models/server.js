@@ -20,6 +20,9 @@ class Server {
     // CORS primero
     this.app.use(cors());
 
+    //Parseo y lectura de body
+    this.app.use(express.json());
+
     // Body parsers
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));

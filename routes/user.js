@@ -12,7 +12,7 @@ const router = Router();
 router.get("/", usersGet);
 
 // ✅ PUT
-router.put("/", usersPut);
+router.put("/:id", usersPut);
 
 // ✅ POST
 router.post("/", usersPost);

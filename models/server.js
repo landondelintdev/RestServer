@@ -1,52 +1,35 @@
 // models/server.js
 import express from "express";
+import cors from "cors";
+import userRoutes from "../routes/user.js";
 
 class Server {
   constructor() {
     this.app = express();
-    this.port = process.env.PORT;
+    this.port = process.env.PORT ?? 8080; // fallback seguro
+    this.usersPath = "/api/users";
 
-    //middlewares
+    // Middlewares
     this.middlewares();
-    //rutas de mi aplicacion
+
+    // Rutas
     this.routes();
   }
 
   middlewares() {
-    //directorio publico
+    // CORS primero
+    this.app.use(cors());
+
+    // Body parsers
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+
+    // Directorio público (sirve index.html en '/')
     this.app.use(express.static("public"));
   }
 
   routes() {
-    this.app.get("/api", (req, res) => {
-      res.json({
-        msg: "get API",
-      });
-    });
-
-    this.app.put("/api", (req, res) => {
-      res.json({
-        msg: "put API",
-      });
-    });
-
-    this.app.post("/api", (req, res) => {
-      res.json({
-        msg: "post API",
-      });
-    });
-
-    this.app.delete("/api", (req, res) => {
-      res.json({
-        msg: "delete API",
-      });
-    });
-
-    this.app.patch("/api", (req, res) => {
-      res.json({
-        msg: "patch API",
-      });
-    });
+    this.app.use(this.usersPath, userRoutes);
   }
 
   listen() {
